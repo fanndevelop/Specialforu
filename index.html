@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Website Musik Premium</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:"Poppins",sans-serif;}
+body{
+    background:linear-gradient(160deg,#292929, #202833,#292929);
+    color:white;
+    overflow-x:hidden;
+    transition:1s;
+}
+
+/* -----------------------------------
+    ANIMASI SCROLL
+------------------------------------ */
+.fade-up {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity .9s ease, transform .9s ease;
+}
+
+.fade-up.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.fade-up.hide {
+    opacity: 0;
+    transform: translateY(40px);
+}
+/* -----------------------------------
+    EMOJI RANDOM RAIN
+------------------------------------ */
+.emoji-rain{
+    position:absolute;top:0;left:0;width:100%;height:100%;
+    pointer-events:none;overflow:hidden;z-index:-1;
+}
+.emoji{
+    position:absolute;font-size:30px;opacity:.4;
+    animation:floatRandom linear infinite;
+}
+@keyframes floatRandom{
+    0%{transform:translate(0,0) rotate(0deg);}
+    25%{transform:translate(-40px,60px) rotate(12deg);}
+    50%{transform:translate(60px,-40px) rotate(-12deg);}
+    75%{transform:translate(-20px,20px) rotate(6deg);}
+    100%{transform:translate(0,0) rotate(0deg);}
+}
+
+/* -----------------------------------
+    HERO
+------------------------------------ */
+.hero{
+    height:100vh;display:flex;justify-content:center;align-items:center;
+    text-align:center;padding:20px;
+}
+.hero h1{font-size:55px;}
+
+/* -----------------------------------
+    PILIHAN MUSIK
+------------------------------------ */
+.music-section{padding:60px 20px;text-align:center;}
+.music-options{display:flex;justify-content:center;gap:25px;flex-wrap:wrap;}
+.music-card{
+    width:250px;height:200px;border-radius:20px;padding:20px;
+    cursor:pointer;transition:.4s;position:relative;overflow:hidden;
+    display:flex;justify-content:center;align-items:center;font-size:20px;
+}
+.music-card:hover{transform:scale(1.08) rotate(1deg);}
+
+.red-dark{
+    background:linear-gradient(45deg,#330000,#660000,#330000);
+}
+.blue-elegant{
+    background:linear-gradient(45deg,#001a33,#003d66,#001a33);
+}
+.gold-lux{
+    background:linear-gradient(45deg,#3a2b00,#7a5a00,#3a2b00);
+}
+
+/* -----------------------------------
+    INFO SECTION (TEKS + GAMBAR)
+------------------------------------ */
+.info-section{
+    display:flex;justify-content:center;align-items:center;
+    gap:40px;padding:80px 20px;
+}
+.info-box{
+    background:rgba(255,255,255,.1);
+    width:340px;padding:20px;border-radius:12px;
+    backdrop-filter:blur(4px);
+}
+.info-image img{
+    width:260px;border-radius:12px;transform:rotate(4deg);
+    transition:.6s;
+}
+.info-image img:hover{
+    transform:rotate(-3deg) scale(1.05);
+}
+
+.reverse{flex-direction:row-reverse;}
+.center-style{flex-direction:column;text-align:center;}
+.center-img img{transform:rotate(-4deg);}
+.big-image img{width:320px;transform:rotate(7deg);}
+
+/* -----------------------------------
+    GRADIENT PEMISAH
+------------------------------------ */
+.separator{
+    width:100%;height:120px;
+    background:linear-gradient(180deg,transparent,rgba(255,255,255,.07),transparent);
+}
+
+/* -----------------------------------
+    AUDIO PLAYER
+------------------------------------ */
+#audioPlayer{
+    margin-top:30px;
+    filter:drop-shadow(0 0 5px #fff);
+}
+
+/* -----------------------------------
+    POPUP STYLE
+------------------------------------ */
+.popup-bg{
+    position:fixed;top:0;left:0;width:100%;height:100%;
+    background:rgba(0,0,0,.6);display:none;justify-content:center;align-items:center;
+}
+.popup-box{
+    background:#222;padding:30px;border-radius:12px;text-align:center;
+    width:300px;animation:pop .4s ease;
+}
+@keyframes pop{
+    0%{transform:scale(.5);opacity:.4;}
+    100%{transform:scale(1);opacity:1;}
+}
+.popup-box button{
+    margin:10px;padding:10px 20px;border:none;border-radius:8px;
+    cursor:pointer;font-size:17px;
+}
+.btn-yes{background:#0f0;color:#000;}
+.btn-no{background:#f00;color:#fff;}
+</style>
+</head>
+<body>
+
+<!-- EMOJI -->
+<div class="emoji-rain" id="emojiRain"></div>
+
+<!-- HERO -->
+<section class="hero fade-up">
+    <h1>Sesuatu Hal Yg Tak Bisa Di Bicarakan Langsung</h1>
+</section>
+
+<div class="separator"></div>
+
+<!-- MUSIC SECTION -->
+<section class="music-section fade-up">
+    <h2>Pilih Musik Yg Kamu Suka</h2>
+
+    <div class="music-options">
+        <div class="music-card red-dark" onclick="setMusic(1)"><img src="https://c.termai.cc/i111/Nsz.jpg" class="music-card red-dark">🍁A Thousand Year</div>
+        <div class="music-card blue-elegant" onclick="setMusic(2)"><img src="https://c.termai.cc/i128/OaQzze.jpg" class="music-card blue-elegant">🌊Mau Di Bawa Kemana</div>
+        <div class="music-card gold-lux" onclick="setMusic(3)"><img src="https://c.termai.cc/i125/i4v.jpg" class="music-card gold-lux">✨ Wish u were here</div>
+    </div>
+
+    <audio id="audioPlayer" controls>
+        <source id="audioSrc" src="" type="audio/mpeg">
+    </audio>
+</section>
+
+<div class="separator"></div>
+
+<section class="hero fade-up">
+<h1> ✉️Pesan Dan Kesan✨ </h1>
+</section>
+
+<!-- SECTIONS GAMBAR + TEKS -->
+<section class="info-section fade-up">
+    <div class="info-box" style="filter:drop-shadow(0 0 5px #1a1a1a)"><h2>Maaf</h2><p>aku selalu mengatakan kata-kata ini "maaf", apakah kamu bosan dengan itu?, aku harap kamu tidak merasa bosan dengan banyaknya perkataan maafku itu, saat ini aku ingin meminta maaf, sebab aku waktumu terganggu, kamu mungkin merasa risih (?), karena aku yg selalu bertanya hal hal yg tidak berguna. <br> aku selalu bertanya itu ada unsur tersendirinya, di balik pertanyaan itu semua, ada sebuah kesepian yg selalu menghantuiku, ntah kenapa aku selalu menanti nanti balasan pesan darimu, sebab apa?, sebab karena kamulah WhatsApp aku merasa berguna, setiap hari aku menanti pesan datang dari seseorang karena aku sangat kesepian, dan aku harap kamu bisa memaklumi diriku ini.</p></div>
+    <div class="info-image"><img src="https://c.termai.cc/i109/D4wK.jpg" style="filter:drop-shadow(0 0 5px #ff6f91)"></div>
+</section>
+
+<section class="info-section reverse fade-up">
+    <div class="info-box" style="filter:drop-shadow(0 0 5px #1a1a1a)"><h2>Belajar</h2><p>Belajar ini sebuah aktivitas wajib yg biasa kita lakukan kan?, jujur, selama 1 semester ini, aku suka dengan gaya belajarmu, caramu yg ambisius ingin mendapatkan nilai tinggi. <br> aku ingin berpesan, supaya kamu tidak hanya sekedar belajar dengan tujuan nilai, tetapi belajarlah dengan tujuan ingin mengetahuinya, sebab dengan cara kamu paham dengan apa yg kamu pelajari, suatu saat itu menjadi bekalmu untuk meraih kesuksesan, dan jangan lupa untuk selalu mengingat apa yg kamu pelajari, agar itu tidak terbuang sia sia.</p></div>
+    <div class="info-image"><img src="https://c.termai.cc/i132/GW1g5.jpg" style="filter:drop-shadow(0 0 5px #ff6f91)"></div>
+</section>
+
+<section class="info-section center-style fade-up">
+    <div class="info-box" style="filter:drop-shadow(0 0 5px #1a1a1a)"><h2>Sifat</h2><p>Entah mengapa(?) aku begitu senang melihat kamu sangat aktif, di banding diriku (?), aku hanya sekedar orang yg dibilang tak bisa apa apa, aku ingin mencoba sepertimu, rajin, baik, selalu senyum, dan hal hal yg tak bisa aku jelaskan, tetapi apa hasilnya?, aku hanya kehilangan diriku sendiri, entah bagaimana sifatku sebenarnya, aku hanya orang yg peniru, aku selalu meniru orang yg aku suka, sebab itu aku kehilangan diriku sendiri. <br><br> aku harap kamu tetap menjadi dirimu, dan jangan menjadi sepertiku, aku selalu malu ketika bertemu berhadapan denganmu, entah mengapa, aku merasa kurang pantas, apa itu membuatmu merasa aku membencimu?, sekali lagi kata maaf aku ucapkan di tempat yg bukan semestinya... maaf jika km menganggapku ini alay, aneh, dll, karena aku tidak tahu apalagi yg harus aku perbuat sehingga aku bisa menjadi orang yg kamu inginkan.</p></div>
+    <div class="info-image center-img"><img src="https://c.termai.cc/i160/W1YVU.jpg" style="filter:drop-shadow(0 0 5px #ff6f91)"></div>
+</section>
+
+<section class="info-section fade-up">
+    <div class="info-box" style="filter:drop-shadow(0 0 5px #1a1a1a)"><h2>Type</h2><p>seperti biasa, aku ini bkn typemu kan??, aku ini cmn orang yg ga jelas, huhh, sepertinya aku sangat berlebihan menjelek2an diriku, aku ini type orang yg tak ingin membuat sebuah kesalahan, itu menghambat aku untuk berani mencoba, sebab itu aku bodoh dalam permainan msc, dan juga aku ini orang yg tidak suka jika memiliki musuh, aku harap km tidak membenciku.<br>foto2 yg dari tadi muncul ini menunjukkan bahwa aku ini orang yg suka menyimpan sebuah memori, tetapi memori yg aku simpan selalu hilang akibat kecerobohanku, wkwk aku type orang yg aneh bukan? oke cukup saatnya aku mencoba memuji diriku sendiri, karena dari tdi aku menjelekkan diriku, wkwk aneh kan.<br>jadi aku ini type orang yg pengen semua cepat selesai, itu membantu bgt dalam melakukan sebuah aktivitas, dengan itu aku mudah sekali menyelesaikan sesuatu dengan mudah dan persentasi keberhasilannya juga harus di lihat, kadang dengan terlalu cepat aku gagal, dan begitu jg sebaliknya, aku juga type orang yg suka main bersih, aku benci sekali melakukan sesuatu dengan cara yg kotor (berantakan), aku mau semuanya berjalan lancar dan rapi, tapi itu tidak semudah itu kan, makanya aku ini aneh, aku ingin semua lancar tetapi akunya sendiri itu kotor, sekali lagi kata2 maaf tidak pernah hilang, maaf ya...</p></div>
+    <div class="info-image big-image"><img src="https://c.termai.cc/i116/HEiJ.jpg" style="filter:drop-shadow(0 0 5px #ff6f91)"></div>
+</section>
+
+<!-- BUTTON POPUP -->
+<div style="text-align:center;margin-bottom:80px;">
+    <button onclick="openPopup()" style="padding:15px 25px;font-size:18px;border-radius:10px;cursor:pointer;">Open Question</button>
+</div>
+
+<!-- POPUP -->
+<div class="popup-bg" id="popupBox">
+   <div class="popup-box">
+       <h3>r u sure to continue to question?</h3>
+       <button class="btn-yes" onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLSesCRDnpWDGa0joFMhH0b7_PVGpCAqc_G6dDB5xWEJ8zFi4lQ/viewform?usp=header','_blank')"">Yes</button>
+       <button class="btn-no" onclick="closePopup()">No</button>
+   </div>
+</div>
+
+<script>
+// ------------------------------------
+// SCROLL ANIMATIONS
+// ------------------------------------
+// ------------------------------------
+// SCROLL ANIMATIONS TWO-WAY
+// ------------------------------------
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add("show");
+            entry.target.classList.remove("hide");
+        } else {
+            entry.target.classList.remove("show");
+            entry.target.classList.add("hide");
+        }
+    });
+}, {
+    threshold: 0.25
+});
+
+document.querySelectorAll(".fade-up").forEach(el => observer.observe(el));
+// ------------------------------------
+// MUSIK CONTROL (FULL FIX)
+// ------------------------------------
+function setMusic(num){
+    const audio = document.getElementById("audioPlayer");
+    const src = document.getElementById("audioSrc");
+
+    if(num === 1){
+        // Direct MP3 file from Vocaroo
+        src.src = "https://media.vocaroo.com/mp3/17N8dZVxASQc";
+    }
+    if(num === 2){
+        src.src = "https://media.vocaroo.com/mp3/1ntIgtowxSPQ"; 
+    }
+    if(num === 3){
+        src.src = "https://media.vocaroo.com/mp3/120nm4uVLWKY";
+    }
+
+    audio.load();
+    audio.play();
+}
+
+// ------------------------------------
+// EMOJI RAIN RANDOM
+// ------------------------------------
+const cont=document.getElementById("emojiRain");
+const emojis=["❤️","💫","✨","🔥","🌙","⭐","💎","🎵","🎶"];
+for(let i=0;i<35;i++){
+    let e=document.createElement("div");
+    e.className="emoji";
+    e.innerHTML=emojis[Math.floor(Math.random()*emojis.length)];
+    e.style.left=Math.random()*100+"%";
+    e.style.top=Math.random()*100+"%";
+    e.style.animationDuration=(6+Math.random()*6)+"s";
+    cont.appendChild(e);
+}
+
+// ------------------------------------
+// POPUP CONTROL
+// ------------------------------------
+function openPopup(){document.getElementById("popupBox").style.display="flex";}
+function closePopup(){document.getElementById("popupBox").style.display="none";}
+</script>
+
+</body>
+</html>
