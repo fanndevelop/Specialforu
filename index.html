@@ -115,7 +115,7 @@ body{
     background:linear-gradient(180deg,transparent,rgba(255,255,255,.07),transparent);
 }
 
-    .toast {
+    .Toast {
     position: fixed;
     bottom: 20px;
     right: 20px; /* pindah ke kiri: left:20px kalau mau */
@@ -131,7 +131,7 @@ body{
     pointer-events: none;
 }
 
-.toast.show {
+.Toast.show {
     opacity: 1;
     transform: translateY(0);
 }
@@ -187,13 +187,13 @@ body{
         <div class="music-card blue-elegant" onclick="setMusic(2)"><img src="https://c.termai.cc/i128/OaQzze.jpg" class="music-card blue-elegant">🌊Mau Di Bawa Kemana</div>
         <div class="music-card gold-lux" onclick="setMusic(3)"><img src="https://c.termai.cc/i125/i4v.jpg" class="music-card gold-lux">✨ Wish u were here</div>
     </div>
-    
-    <div id="toast">Loading...</div>
 
     <audio id="audioPlayer" controls>
         <source id="audioSrc" src="" type="audio/mpeg">
     </audio>
 </section>
+
+    <div id="Toast">Loading...</div>
 
 <div class="separator"></div>
 
@@ -281,7 +281,7 @@ function setMusic(num){
 }
 
     function showToast() {
-    const toast = document.getElementById("toast");
+    const toast = document.getElementById("Toast");
     toast.classList.add("show");
 
     setTimeout(() => {
